@@ -17,5 +17,7 @@ function drawChart(selector, specPath) {
     .catch(err => console.error("Chart failed:", specPath, err));
 }
 
+drawChart("#gender", "charts/gender_dumbbell.json");
+
 // One line per chart:
 // drawChart("#bars", "charts/bars.json");

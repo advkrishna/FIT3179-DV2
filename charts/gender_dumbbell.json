@@ -1,0 +1,73 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Female and male Year 12 completion by state, 2022",
+    "subtitle": "Each line connects the male and female rate in one state. Longer line = bigger gap.",
+    "anchor": "start"
+  },
+  "width": "container",
+  "height": 300,
+  "data": { "url": "data/yr12_completion.csv" },
+  "transform": [
+    { "filter": "datum.year == 2022 && datum.group == 'All' && datum.sex != 'All'" },
+    { "pivot": "sex", "value": "pct", "groupby": ["state"] },
+    { "calculate": "datum.Female - datum.Male", "as": "gap" },
+    { "calculate": "abs(datum.gap)", "as": "abs_gap" }
+  ],
+  "encoding": {
+    "y": {
+      "field": "state",
+      "type": "nominal",
+      "title": null,
+      "sort": { "field": "abs_gap", "op": "max", "order": "descending" }
+    }
+  },
+  "layer": [
+    {
+      "mark": { "type": "rule", "strokeWidth": 3, "color": "#b8b8b8" },
+      "encoding": {
+        "x": { "field": "Male", "type": "quantitative", "scale": { "zero": false },
+               "title": "Completed Year 12 (% of population)" },
+        "x2": { "field": "Female" }
+      }
+    },
+    {
+      "mark": { "type": "circle", "size": 150, "opacity": 1 },
+      "encoding": {
+        "x": { "field": "Male", "type": "quantitative" },
+        "color": { "datum": "Male" },
+        "tooltip": [
+          { "field": "state", "title": "State" },
+          { "field": "Male", "title": "Male (%)" },
+          { "field": "Female", "title": "Female (%)" },
+          { "field": "gap", "title": "Gap, female minus male (points)", "format": ".1f" }
+        ]
+      }
+    },
+    {
+      "mark": { "type": "circle", "size": 150, "opacity": 1 },
+      "encoding": {
+        "x": { "field": "Female", "type": "quantitative" },
+        "color": { "datum": "Female" },
+        "tooltip": [
+          { "field": "state", "title": "State" },
+          { "field": "Male", "title": "Male (%)" },
+          { "field": "Female", "title": "Female (%)" },
+          { "field": "gap", "title": "Gap, female minus male (points)", "format": ".1f" }
+        ]
+      }
+    },
+    {
+      "mark": { "type": "text", "align": "left", "dx": 12, "fontSize": 11, "color": "#555" },
+      "encoding": {
+        "x": { "field": "Female", "type": "quantitative" },
+        "text": { "field": "gap", "type": "quantitative", "format": "+.1f" }
+      }
+    }
+  ],
+  "resolve": { "scale": { "color": "shared" } },
+  "config": {
+    "legend": { "orient": "top", "title": null },
+    "axis": { "grid": false }
+  }
+}
