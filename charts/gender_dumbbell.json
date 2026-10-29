@@ -1,8 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": {
-    "text": "Female and male Year 12 completion by state, 2022",
-    "subtitle": "Each line connects the male and female rate in one state. Longer line = bigger gap.",
+    "text": "Female and Male Year 12 completion by State, 2022",
     "anchor": "start"
   },
   "width": "container",
@@ -40,7 +39,7 @@
           { "field": "state", "title": "State" },
           { "field": "Male", "title": "Male (%)" },
           { "field": "Female", "title": "Female (%)" },
-          { "field": "gap", "title": "Gap, female minus male (points)", "format": ".1f" }
+          { "field": "gap", "title": "Gap, female minus male", "format": ".1f" }
         ]
       }
     },
@@ -53,7 +52,7 @@
           { "field": "state", "title": "State" },
           { "field": "Male", "title": "Male (%)" },
           { "field": "Female", "title": "Female (%)" },
-          { "field": "gap", "title": "Gap, female minus male (points)", "format": ".1f" }
+          { "field": "gap", "title": "Gap, female minus male", "format": ".1f" }
         ]
       }
     },
@@ -67,7 +66,7 @@
   ],
   "resolve": { "scale": { "color": "shared" } },
   "config": {
-    "legend": { "orient": "top", "title": null },
+    "legend": { "orient": "right", "title": null },
     "axis": { "grid": false }
   }
 }
