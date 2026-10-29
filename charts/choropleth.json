@@ -1,0 +1,67 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Year 12 Completion by State and Territory",
+    "subtitle": "Completion rates from 2010-2022",
+    "anchor": "start"
+  },
+  "width": "container",
+  "height": 420,
+  "projection": {
+    "type": "albers",
+    "rotate": [-132, 0],
+    "center": [0, -27],
+    "parallels": [-18, -36],
+    "scale": 620
+  },
+  "params": [
+    {
+      "name": "year_pick",
+      "value": 2022,
+      "bind": { "input": "range", "min": 2010, "max": 2022, "step": 1, "name": "Year: " }
+    }
+  ],
+  "layer": [
+    {
+      "data": {
+        "url": "data/australia_states.topojson",
+        "format": { "type": "topojson", "feature": "states" }
+      },
+      "mark": { "type": "geoshape", "fill": "#e5e1da", "stroke": "#ffffff", "strokeWidth": 1 }
+    },
+    {
+      "data": { "url": "data/yr12_completion.csv" },
+      "transform": [
+        { "filter": "datum.year == year_pick && datum.sex == 'All' && datum.group == 'All'" },
+        {
+          "lookup": "state",
+          "from": {
+            "data": {
+              "url": "data/australia_states.topojson",
+              "format": { "type": "topojson", "feature": "states" }
+            },
+            "key": "properties.STE_NAME21"
+          },
+          "as": "geo"
+        },
+        { "filter": "datum.geo != null" }
+      ],
+      "mark": { "type": "geoshape", "stroke": "#ffffff", "strokeWidth": 1 },
+      "encoding": {
+        "shape": { "field": "geo", "type": "geojson" },
+        "color": {
+          "field": "pct",
+          "type": "quantitative",
+          "scale": { "scheme": "blues" },
+          "legend": { "title": "Completed Year 12 (%)", "orient": "bottom", "gradientLength": 240 }
+        },
+        "tooltip": [
+          { "field": "state", "title": "State" },
+          { "field": "year", "title": "Year" },
+          { "field": "pct", "title": "Completed Year 12 (%)" }
+        ]
+      }
+    }
+  ],
+  "config": { "view": { "stroke": null } }
+}

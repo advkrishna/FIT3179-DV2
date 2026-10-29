@@ -25,7 +25,7 @@ h2 { font-family:'Lora',serif; font-size:1.4rem; margin:0; font-weight: 100px;}
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);   /* soft shadow */ }
  
 
-section { max-width:1000px; margin:0px auto 0px ; padding:20px 24px; border-top:1.5px solid #eeece9; }
+section { max-width:1000px; margin:0px auto 0px ; padding:20px 24px; border-top:1px solid #eeece9; }
 .text { max-width:62ch; margin-bottom:20px; }
 .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
 
