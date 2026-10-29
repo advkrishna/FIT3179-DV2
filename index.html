@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Education Divide: Participation, Equity and Outcomes Across Australia</title>
+
+<script src="https://cdn.jsdelivr.net/npm/vega@5.30.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@5.21.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6.26.0"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+<div class="page">
+<header>
+  <h1>The Education Divide: Participation, Equity and Outcomes Across Australia</h1>
+</header>
+ 
+<section class="band">
+  <div class="grid2">
+  <p class="intro">
+      Across Australia, access to quality education is not always equal.
+      Where do educational inequalities exist, how do outcomes differ between communities, and what do these patterns reveal about educational equity across Australia.</p>
+  </div>
+  <section>
+  <h2>A map of completion</h2>
+  <p class="text">Year 12 (or equivalent) is the gateway to university and skilled work. Completion differs between states and territories, and the darker the colour, the more adults have finished school.</p>
+  <div class="card"><h3>Adults who completed Year 12 or equivalent (%)</h3><p class="cap">Hover a state for details.</p><div id="v1"></div></div>
+  <p class="callout">Tip: replace this sentence with your biggest finding from the map.</p>
+</section>
+ 
+<section>
+  <h2> Degrees and disadvantaged students</h2>
+  <p class="text">Two further views of the same states. The tile map gives every state equal space, so small jurisdictions such as the ACT are not hidden. The bubble map shows where students from low-income backgrounds are most concentrated.</p>
+  <div class="grid2">
+    <div class="card"><h3>Adults with a bachelor degree or higher (%)</h3><p class="cap">Each tile is one state or territory.</p><div id="v2"></div></div>
+    <div class="card"><h3>Students from the lowest socio-economic group (%)</h3><p class="cap">Bigger circle = bigger share.</p><div id="v3"></div></div>
+  </div>
+</section>
+ 
+<section>
+  <h2>Distance from the city matters</h2>
+  <p class="text">Australia classifies places by how far they are from services: major cities, regional areas and remote areas. Each line connects Year 3 and Year 9 results, so a longer line means a bigger drop-off at that stage.</p>
+  <div class="card"><h3>Students at or above NAPLAN minimum standard in reading (%)</h3><p class="cap">NAPLAN is the national test taken by students in Years 3, 5, 7 and 9.</p><div id="v4"></div></div>
+</section>
+ 
+<section>
+  <h2>4. Family background and income</h2>
+  <p class="text">Parents' education and neighbourhood income both shape results. The heatmap compares test areas by parental education, and the bars show Year 12 completion by neighbourhood advantage (1 = most disadvantaged).</p>
+  <div class="grid2">
+    <div class="card"><h3>Average NAPLAN score by parental education</h3><p class="cap">Darker = higher score.</p><div id="v5"></div></div>
+    <div class="card"><h3>Year 12 completion by neighbourhood advantage (%)</h3><p class="cap">Quintile 1 = most disadvantaged fifth.</p><div id="v6"></div></div>
+  </div>
+  <p class="concl">socioeconomic circumstances and geographic location may influence how students participate in education, complete their studies and achieve their academic potential.</p>
+</section>
+</section>
+
+<footer>
+  <p class = "sources"><strong>Data sources</strong><br>
+  Australian Bureau of Statistics (ABS), 2021 Census / Data by Region. https://www.abs.gov.au<br>
+  ACARA, NAPLAN results by remoteness and parental education. https://www.acara.edu.au<br>
+  ABS, Australian Statistical Geography Standard (state boundaries, SEIFA). https://www.abs.gov.au<br>
+  </p>
+  <p class = "name">Advithiya Krishnamurthi - FIT3179 Data Visualisation 2 </p>
+</footer>
+ 
+<script>
+const base = { "$schema":"https://vega.github.io/schema/vega-lite/v5.json", "width":"container",
+  "config":{ "font":"Inter", "view":{"stroke":null}, "axis":{"labelFontSize":12,"titleFontSize":12,"grid":false},
+             "title":{"font":"Lora"} } };
+const proj = { "type":"albers", "rotate":[-132,0], "center":[0,-27], "parallels":[-18,-36], "scale":620 };
+const states = { "url":"data/australia_states.topojson", "format":{"type":"topojson","feature":"states"} };
+const seq = { "scheme":"oranges" };
+ 
+// 1. CHOROPLETH
+const v1 = { ...base, "height":420, "projection":proj,
+  "layer":[
+    { "data":states, "mark":{"type":"geoshape","fill":"#eee","stroke":"#fff"} },
+    { "data":states,
+      "transform":[{"lookup":"properties.STE_NAME21","from":{"data":{"url":"data/state_education.csv"},"key":"state","fields":["year12_pct"]}}],
+      "mark":{"type":"geoshape","stroke":"#fff","strokeWidth":1},
+      "encoding":{
+        "color":{"field":"year12_pct","type":"quantitative","scale":seq,"legend":{"title":"Year 12 (%)"}},
+        "tooltip":[{"field":"properties.STE_NAME21","title":"State"},{"field":"year12_pct","title":"Year 12 (%)"}] } } ] };
+ 
+// 2. TILE-GRID MAP (cartogram)
+const tiles = [
+  {state:"Western Australia",code:"WA",col:0,row:1},{state:"Northern Territory",code:"NT",col:1,row:0},
+  {state:"South Australia",code:"SA",col:1,row:1},{state:"Queensland",code:"QLD",col:2,row:0},
+  {state:"New South Wales",code:"NSW",col:2,row:1},{state:"Victoria",code:"VIC",col:2,row:2},
+  {state:"Australian Capital Territory",code:"ACT",col:3,row:1},{state:"Tasmania",code:"TAS",col:2,row:3} ];
+const v2 = { ...base, "height":300, "data":{"values":tiles},
+  "transform":[{"lookup":"state","from":{"data":{"url":"data/state_education.csv"},"key":"state","fields":["bachelor_pct"]}}],
+  "encoding":{ "x":{"field":"col","type":"ordinal","axis":null}, "y":{"field":"row","type":"ordinal","axis":null} },
+  "layer":[
+    { "mark":{"type":"rect","stroke":"#fff","strokeWidth":3,"cornerRadius":4},
+      "encoding":{"color":{"field":"bachelor_pct","type":"quantitative","scale":{"scheme":"blues"},"legend":{"title":"Degree (%)"}},
+        "tooltip":[{"field":"state","title":"State"},{"field":"bachelor_pct","title":"Degree (%)"}]} },
+    { "mark":{"type":"text","fontWeight":"bold","fontSize":13},
+      "encoding":{"text":{"field":"code"},
+        "color":{"condition":{"test":"datum.bachelor_pct > 30","value":"white"},"value":"#1f2933"}} } ] };
+ 
+// 3. PROPORTIONAL SYMBOL MAP
+const v3 = { ...base, "height":300, "projection":proj,
+  "layer":[
+    { "data":states, "mark":{"type":"geoshape","fill":"#e8e4de","stroke":"#fff"} },
+    { "data":{"url":"data/state_education.csv"}, "mark":{"type":"circle","opacity":.75,"stroke":"#fff","fill":"#c2410c"},
+      "encoding":{
+        "longitude":{"field":"lon","type":"quantitative"}, "latitude":{"field":"lat","type":"quantitative"},
+        "size":{"field":"low_ses_pct","type":"quantitative","scale":{"range":[80,1600]},"legend":{"title":"Lowest group (%)"}},
+        "tooltip":[{"field":"state","title":"State"},{"field":"low_ses_pct","title":"Lowest group (%)"}] } } ] };
+ 
+// 4. DUMBBELL: Year 3 vs Year 9 by remoteness
+const v4 = { ...base, "height":240, "data":{"url":"data/naplan_remoteness.csv"},
+  "encoding":{ "y":{"field":"remoteness","type":"nominal","sort":["Major Cities","Inner Regional","Outer Regional","Remote","Very Remote"],"title":null} },
+  "layer":[
+    { "mark":{"type":"rule","strokeWidth":3,"color":"#bbb"},
+      "encoding":{"x":{"aggregate":"min","field":"pct","type":"quantitative","scale":{"zero":false},"title":"Students at or above minimum standard (%)"},
+                  "x2":{"aggregate":"max","field":"pct"}} },
+    { "mark":{"type":"circle","size":160,"opacity":1},
+      "encoding":{"x":{"field":"pct","type":"quantitative"},
+        "color":{"field":"grade","type":"nominal","scale":{"domain":["Year 3","Year 9"],"range":["#2b6cb0","#c2410c"]},"legend":{"title":null,"orient":"top"}},
+        "tooltip":[{"field":"remoteness"},{"field":"grade"},{"field":"pct","title":"%"}]} } ] };
+ 
+// 5. HEATMAP: parental education x domain
+const v5 = { ...base, "height":240, "data":{"url":"data/naplan_parent_ed.csv"},
+  "encoding":{
+    "x":{"field":"domain","type":"nominal","title":null,"axis":{"labelAngle":0}},
+    "y":{"field":"parent_ed","type":"ordinal","title":null,"sort":["Year 11 or below","Year 12","Certificate/Diploma","Bachelor or above"]} },
+  "layer":[
+    { "mark":"rect", "encoding":{"color":{"field":"score","type":"quantitative","scale":{"scheme":"purples"},"legend":null}} },
+    { "mark":{"type":"text"}, "encoding":{"text":{"field":"score","type":"quantitative","format":".0f"},
+        "color":{"condition":{"test":"datum.score > (+datum.mid || 500)","value":"white"},"value":"#1f2933"}} } ] };
+ 
+// 6. SEIFA QUINTILE BARS
+const v6 = { ...base, "height":240, "data":{"url":"data/seifa_quintile.csv"},
+  "encoding":{ "x":{"field":"quintile","type":"ordinal","title":"Neighbourhood advantage (1 = lowest)","axis":{"labelAngle":0}},
+               "y":{"field":"year12_pct","type":"quantitative","title":"Year 12 completion (%)"} },
+  "layer":[
+    { "mark":{"type":"bar","color":"#c2410c","cornerRadiusTop":3}, "encoding":{"tooltip":[{"field":"year12_pct","title":"%"}]} },
+    { "mark":{"type":"text","dy":-6,"fontWeight":"bold"}, "encoding":{"text":{"field":"year12_pct","format":".0f"}} } ] };
+ 
+const opts = { actions:false, renderer:"svg" };
+[["#v1",v1],["#v2",v2],["#v3",v3],["#v4",v4],["#v5",v5],["#v6",v6]].forEach(([id,s]) => vegaEmbed(id,s,opts));
+</script>
+</div>
+</body>
+</html>
+ 
