@@ -18,6 +18,7 @@ function drawChart(selector, specPath) {
 }
 
 drawChart("#gender", "charts/gender_dumbbell.json");
+drawChart("#socioeconomic", "charts/socioeco_heatmap.json");
 
 // One line per chart:
 // drawChart("#bars", "charts/bars.json");

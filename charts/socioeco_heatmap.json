@@ -1,0 +1,60 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Year 12 Completion by State and Socio-economic Status, 2022",
+    "anchor": "start"
+  },
+  "width": "container",
+  "height": { "step": 38 },
+  "data": { "url": "data/yr12_completion.csv" },
+  "transform": [
+    { "filter": "datum.year == 2022 && datum.sex == 'All' && indexof(datum.group, 'socio') >= 0" },
+    { "calculate": "indexof(datum.group, 'High') == 0 ? 'High' : (indexof(datum.group, 'Medium') == 0 ? 'Medium' : 'Low')", "as": "ses" },
+    { "calculate": "datum.ses == 'Low' ? datum.pct : null", "as": "low_pct" },
+    { "joinaggregate": [{ "op": "max", "field": "low_pct", "as": "state_low" }], "groupby": ["state"] }
+  ],
+  "encoding": {
+    "x": {
+      "field": "ses",
+      "type": "ordinal",
+      "title": "Family income level (socio-economic group)",
+      "sort": ["Low", "Medium", "High"],
+      "axis": { "orient": "top", "labelAngle": 0, "labelFontSize": 12, "titleFontSize": 12 }
+    },
+    "y": {
+      "field": "state",
+      "type": "nominal",
+      "title": null,
+      "sort": { "field": "state_low", "op": "max", "order": "ascending" },
+      "axis": { "labelFontSize": 12 }
+    }
+  },
+  "layer": [
+    {
+      "mark": { "type": "rect", "stroke": "#ffffff", "strokeWidth": 3, "cornerRadius": 3 },
+      "encoding": {
+        "color": {
+          "field": "pct",
+          "type": "quantitative",
+          "scale": { "range": ["#d8f1fa", "#4f70d6"] },
+          "legend": { "title": "Completed Year 12 (%)", "orient": "bottom", "gradientLength": 220 }
+        },
+        "tooltip": [
+          { "field": "state", "title": "State" },
+          { "field": "ses", "title": "Income group" },
+          { "field": "pct", "title": "Completed Year 12 (%)" }
+        ]
+      }
+    },
+    {
+      "mark": { "type": "text", "fontSize": 13, "fontWeight": "bold", "color": "#253442" },
+      "encoding": {
+        "text": { "field": "pct", "type": "quantitative", "format": ".1f" }
+      }
+    }
+  ],
+  "config": {
+    "view": { "stroke": null },
+    "axis": { "grid": false, "domain": false, "ticks": false }
+  }
+}
