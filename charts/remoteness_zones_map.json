@@ -1,0 +1,121 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Year 12 completion by Remoteness zone",
+    "anchor": "start"
+  },
+  "width": "container",
+  "height": 440,
+  "projection": {
+    "type": "albers",
+    "rotate": [-132, 0],
+    "center": [0, -27],
+    "parallels": [-18, -36],
+    "scale": 640
+  },
+  "params": [
+    {
+      "name": "zone_year",
+      "value": 2022,
+      "bind": { "input": "range", "min": 2009, "max": 2022, "step": 1, "name": "Year: " }
+    }
+  ],
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/advkrishna/FIT3179-DV2/refs/heads/main/data/australia_ra.topojson",
+        "format": { "type": "topojson", "feature": "ra" }
+      },
+      "mark": { "type": "geoshape", "fill": "#e5e1da", "stroke": "#ffffff", "strokeWidth": 0.5 }
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/advkrishna/FIT3179-DV2/refs/heads/main/data/australia_ra.topojson",
+        "format": { "type": "topojson", "feature": "ra" }
+      },
+      "transform": [
+         {"lookup": "properties.RA_NAME21",
+                "from": {
+    "data": {
+      "values": [
+        { "ra": "Major Cities of Australia", "group": "Major cities" },
+        { "ra": "Inner Regional Australia", "group": "Inner regional" },
+        { "ra": "Outer Regional Australia", "group": "Outer regional" },
+        { "ra": "Remote Australia", "group": "Remote/very remote" },
+        { "ra": "Very Remote Australia", "group": "Remote/very remote" }
+      ]
+    },
+    "key": "ra",
+    "fields": ["group"]
+  }
+},
+        {"calculate": "toString(zone_year) + '|' + datum.properties.STE_NAME21 + '|All|' + datum.group",
+          "as": "key"
+        },
+        {"lookup": "key",
+          "from": {
+            "data": { "url": "https://raw.githubusercontent.com/advkrishna/FIT3179-DV2/refs/heads/main/data/yr12_completion.csv" },
+            "key": "key",
+            "fields": ["pct"]
+          }
+        },
+        { "filter": "isValid(datum.pct)" }
+      ],
+      "mark": { "type": "geoshape", "stroke": "#ffffff", "strokeWidth": 0.5 },
+      "encoding": {
+        "color": {
+          "field": "pct",
+          "type": "quantitative",
+          "scale": { "scheme": "blues" },
+          "legend": { "title": "Completed Year 12 (%)", "orient": "bottom", "gradientLength": 240 }
+        },
+        "tooltip": [
+          { "field": "properties.STE_NAME21", "title": "State" },
+          { "field": "group", "title": "Remoteness" },
+          { "field": "pct", "title": "Completed Year 12 (%)" }
+        ]
+      }
+    },
+{
+  "data": {
+    "values": [
+      { "city": "Sydney", "lon": 151.21, "lat": -33.87 },
+      { "city": "Melbourne", "lon": 144.96, "lat": -37.81 },
+      { "city": "Brisbane", "lon": 153.03, "lat": -27.47 },
+      { "city": "Perth", "lon": 115.86, "lat": -31.95 },
+      { "city": "Adelaide", "lon": 138.60, "lat": -34.93 },
+      { "city": "Hobart", "lon": 147.33, "lat": -42.88 },
+      { "city": "Darwin", "lon": 130.84, "lat": -12.46 },
+      { "city": "Canberra", "lon": 149.13, "lat": -35.28 }
+    ]
+  },
+  "mark": { "type": "circle", "size": 45, "fill": "#1f2933", "stroke": "#ffffff", "strokeWidth": 1.5 },
+  "encoding": {
+    "longitude": { "field": "lon", "type": "quantitative" },
+    "latitude": { "field": "lat", "type": "quantitative" },
+    "tooltip": [{ "field": "city", "title": "Capital city" }]
+  }
+},
+{
+  "data": {
+    "values": [
+      { "city": "Sydney", "lon": 151.21, "lat": -33.87 },
+      { "city": "Melbourne", "lon": 144.96, "lat": -37.81 },
+      { "city": "Brisbane", "lon": 153.03, "lat": -27.47 },
+      { "city": "Perth", "lon": 115.86, "lat": -31.95 },
+      { "city": "Adelaide", "lon": 138.60, "lat": -34.93 },
+      { "city": "Hobart", "lon": 147.33, "lat": -42.88 },
+      { "city": "Darwin", "lon": 130.84, "lat": -12.46 },
+      { "city": "Canberra", "lon": 149.13, "lat": -35.28 }
+    ]
+  },
+  "mark": { "type": "text", "align": "left", "dx": 7, "fontSize": 11, "fontWeight": 600, "color": "#042341" },
+  "encoding": {
+    "longitude": { "field": "lon", "type": "quantitative" },
+    "latitude": { "field": "lat", "type": "quantitative" },
+    "text": { "field": "city", "type": "nominal" }
+  }
+}
+  ],
+  "config": { "view": { "stroke": null } }
+}
