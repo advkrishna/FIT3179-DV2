@@ -6,10 +6,9 @@
   margin: 0 auto;
   padding: 0 24px;         
 }
-
+.intro { font-size:15px; line-height:1.7; margin: 0px 40px 20px 40px}
 header { padding:20px 24px 20px; margin:auto; }
 h1 { font-family:'Lora',serif; font-size:2rem; line-height:1.15; margin:10px auto;  font-weight: 700; max-width: 600px;}
-.intro { font-size:15px; max-width: 1000px; line-height:1.7; margin:10px 20px 20px;}
 
 body {
     margin: 0 auto;
@@ -18,7 +17,8 @@ body {
     color: #1f2933;
     line-height: 1;
    }
-h2 { font-family:'Lora',serif; font-size:1.4rem; margin:0; font-weight: 100px;}
+h2 { font-family:'Lora',serif; font-size:1.4rem; margin-bottom:10px; font-weight: 100px;}
+
 
 .band {
   background: #f7f7f7;          /* box colour */
