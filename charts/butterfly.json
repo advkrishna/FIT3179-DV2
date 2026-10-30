@@ -1,0 +1,106 @@
+
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Student background by Area type",
+    "anchor": "start"
+  },
+  "data": {
+    "url": "data/school_profile_2025.csv",
+    "format": { "type": "csv", "parse": { "enrol": "number", "indig_pct": "number", "lbote_pct": "number" } }
+  },
+  "transform": [
+    { "filter": "isValid(datum.enrol) && isValid(datum.indig_pct) && isValid(datum.lbote_pct) && isValid(datum.geo)" },
+    { "calculate": "datum.enrol * datum.indig_pct / 100", "as": "indig_n" },
+    { "calculate": "datum.enrol * datum.lbote_pct / 100", "as": "lbote_n" },
+    {
+      "aggregate": [
+        { "op": "sum", "field": "enrol", "as": "total" },
+        { "op": "sum", "field": "indig_n", "as": "indig_total" },
+        { "op": "sum", "field": "lbote_n", "as": "lbote_total" },
+        { "op": "count", "as": "schools" }
+      ],
+      "groupby": ["geo"]
+    },
+    { "calculate": "datum.indig_total / datum.total * 100", "as": "indig_share" },
+    { "calculate": "datum.lbote_total / datum.total * 100", "as": "lbote_share" }
+  ],
+  "padding": { "left": 0, "right": 10, "top": 0, "bottom": 10 },
+  "hconcat": [
+    {
+      "width": 200,
+      "height": { "step": 25 },
+      "title": { "text": "Indigenous students (%)", "fontSize": 12, "anchor": "end" },
+      "encoding": {
+        "y": {
+          "field": "geo", "type": "ordinal", "title": null,
+          "sort": ["Major Cities", "Inner Regional", "Outer Regional", "Remote", "Very Remote"],
+          "axis": { "labelFontSize": 12, "ticks": false, "domain": false, "labelPadding": 20 }
+        }
+      },
+      "layer": [
+        {
+          "mark": { "type": "bar", "color": "#bfc20c" },
+          "encoding": {
+            "x": {
+              "field": "indig_share", "type": "quantitative",
+              "scale": { "domain": [0, 70], "reverse": true },
+              "axis": { "title": "% of students", "values": [0, 10, 20, 30, 40], "grid": false }
+            },
+            "tooltip": [
+              { "field": "geo", "title": "Area type" },
+              { "field": "indig_share", "title": "Indigenous students (%)", "format": ".1f" },
+              { "field": "schools", "title": "Schools" },
+              { "field": "total", "title": "Students", "format": "," }
+            ]
+          }
+        },
+        {
+          "mark": { "type": "text", "align": "right", "dx": -4, "fontSize": 11, "color": "#1f2933" },
+          "encoding": {
+            "x": { "field": "indig_share", "type": "quantitative", "scale": { "domain": [0, 70], "reverse": true }, "axis": null },
+            "text": { "field": "indig_share", "type": "quantitative", "format": ".1f" }
+          }
+        }
+      ]
+    },
+    {
+      "width": 200,
+      "height": { "step": 25 },
+      "title": { "text": "Language other than English at home (%)", "fontSize": 12, "anchor": "start" },
+      "encoding": {
+        "y": {
+          "field": "geo", "type": "ordinal", "axis": null,
+          "sort": ["Major Cities", "Inner Regional", "Outer Regional", "Remote", "Very Remote"]
+        }
+      },
+      "layer": [
+        {
+          "mark": { "type": "bar", "color": "#2bb05e" },
+          "encoding": {
+            "x": {
+              "field": "lbote_share", "type": "quantitative",
+              "scale": { "domain": [0, 50] },
+              "axis": { "title": "% of students", "values": [0, 10, 20, 30, 40], "grid": false }
+            },
+            "tooltip": [
+              { "field": "geo", "title": "Area type" },
+              { "field": "lbote_share", "title": "Language other than English (%)", "format": ".1f" },
+              { "field": "schools", "title": "Schools" },
+              { "field": "total", "title": "Students", "format": "," }
+            ]
+          }
+        },
+        {
+          "mark": { "type": "text", "align": "left", "dx": 4, "fontSize": 11, "color": "#1f2933" },
+          "encoding": {
+            "x": { "field": "lbote_share", "type": "quantitative", "scale": { "domain": [0, 40] }, "axis": null },
+            "text": { "field": "lbote_share", "type": "quantitative", "format": ".1f" }
+          }
+        }
+      ]
+    }
+  ],
+  "spacing": 20,
+  "config": { "view": { "stroke": null }, "axis": { "grid": false } }
+}
