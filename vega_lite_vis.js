@@ -28,6 +28,7 @@ drawChart("#map2", "charts/remoteness_zones_map.json");
 drawChart("#remotebar", "charts/remoteness_bargrid.json");
 drawChart("#schoolloc", "charts/schoolsloc.json", "canvas");
 drawChart("#butterfly", "charts/butterfly.json");
+drawChart("#ssratio", "charts/staff_ratio.json");
 
 const DESIGN_WIDTH = autosize;   
 function fitPage() {

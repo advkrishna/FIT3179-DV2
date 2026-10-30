@@ -1,0 +1,64 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 500,
+  "height": 230,
+  "data": { "url": "data/school_profile_2025.csv" },
+  "params": [
+  {
+    "name": "sector_pick",
+    "value": "All",
+    "bind": {
+      "input": "select",
+      "options": ["All", "Government", "Catholic", "Independent"],
+      "name": "School sector: "
+    }
+  }
+],
+  "transform": [
+    { "calculate": "toNumber(datum.ssr)", "as": "ssr_n" },
+    { "calculate": "toNumber(datum.icsea_pct)", "as": "adv" },
+    { "filter": "isValid(datum.ssr_n) && isValid(datum.adv) && datum.ssr_n > 0 && datum.ssr_n < 16 && datum.sector && (sector_pick == 'All' || datum.sector == sector_pick)" }
+  ],
+  "layer": [
+    {
+      "mark": { "type": "circle", "size": 8, "opacity": 0.15 },
+      "encoding": {
+        "x": {
+          "field": "adv", "type": "quantitative",
+          "title": "Advantage ranking (0 = least advantaged, 100 = most)",
+          "scale": { "domain": [0, 100] },
+          "axis": { "values": [0, 25, 50, 75, 100], "grid": false }
+        },
+        "y": {
+          "field": "ssr_n", "type": "quantitative",
+          "title": "Number of students per staff member",
+          "scale": { "domain": [0, 16] },
+          "axis": { "grid": true, "gridColor": "#eeeeee" }
+        },
+        "color": {
+          "field": "sector", "type": "nominal",
+          "scale": { "domain": ["Government", "Catholic", "Independent"], "range": ["#1b9e77", "#d95f02", "#7570b3"] },
+          "legend": { "title": "Sector", "orient": "top" , "labelFontSize": 11}
+        },
+        "tooltip": [
+          { "field": "school", "title": "School" },
+          { "field": "sector", "title": "Sector" },
+          { "field": "adv", "title": "Advantage ranking" },
+          { "field": "ssr_n", "title": "Students per staff", "format": ".1f" }
+        ]
+      }
+    },
+    {
+      "transform": [
+        { "loess": "ssr_n", "on": "adv", "groupby": ["sector"], "bandwidth": 0.4 }
+      ],
+      "mark": { "type": "line", "strokeWidth": 3 },
+      "encoding": {
+        "x": { "field": "adv", "type": "quantitative" },
+        "y": { "field": "ssr_n", "type": "quantitative" },
+        "color": { "field": "sector", "type": "nominal", "legend": null }
+      }
+    }
+  ],
+  "config": { "view": { "stroke": null } }
+}
