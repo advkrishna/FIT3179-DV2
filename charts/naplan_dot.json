@@ -1,0 +1,54 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "How do average scores differ by parents' education?",
+    "anchor": "start"
+  },
+  "width": 350,
+  "height": 350,
+  "data": {
+    "url": "data/naplan.csv",
+    "format": { "type": "csv", "parse": { "year": "number", "year_level": "number", "score": "number" } }
+  },
+  "params": [
+    {
+      "name": "dom_pick", "value": "Reading",
+      "bind": { "input": "select", "options": ["Reading", "Writing", "Spelling", "Grammar and Punctuation", "Numeracy"], "name": "Test: " }
+    },
+    { "name": "lvl_pick", "value": 3, "bind": { "input": "select", "options": [3, 5, 7, 9], "name": "Year level: " } },
+    { "name": "hl", "select": { "type": "point", "fields": ["state"], "on": "pointerover", "clear": "pointerout" } }
+  ],
+  "transform": [
+    { "filter": "datum.domain == dom_pick && datum.year_level == lvl_pick && datum.state != 'Australia' && indexof(datum.parent_education, 'Parental education') == 0 && indexof(datum.parent_education, 'not stated') < 0 && isValid(datum.score)" },
+    { "calculate": "lower(replace(datum.parent_education, 'Parental education: ', ''))", "as": "key" },
+    {
+      "calculate": "indexof(datum.key,'bachelor') == 0 ? 'Bachelor degree' : (indexof(datum.key,'diploma') == 0 ? 'Diploma' : (indexof(datum.key,'certificate') == 0 ? 'Certificate' : (datum.key == 'year 12' ? 'Year 12' : 'Year 11 or below')))",
+      "as": "parent_ed"
+    },
+    { "calculate": "random()", "as": "jitter" }
+  ],
+  "mark": { "type": "circle", "size": 150, "stroke": "#ffffff", "strokeWidth": 1.5 },
+  "encoding": {
+    "x": {
+      "field": "score", "type": "quantitative", "title": "Average NAPLAN score",
+      "scale": { "domain": [200, 650], "nice": false },
+      "axis": { "grid": true, "gridColor": "#eeeeee", "tickCount": 5 }
+    },
+    "y": { "field": "jitter", "type": "quantitative", "scale": { "domain": [-0.1, 1.1] }, "axis": null },
+    "color": {
+      "field": "parent_ed", "type": "nominal",
+      "scale": {
+        "domain": ["Bachelor degree", "Diploma", "Certificate", "Year 12", "Year 11 or below"],
+        "range": ["#08306b", "#2b6cb0", "#7fb0d8", "#f0a15e", "#c2410c"]
+      },
+      "legend": { "title": "Parents' highest education", "orient": "bottom", "columns": 3, "labelFontSize": 11, "titleFontSize": 11 }
+    },
+    "opacity": { "condition": { "param": "hl", "value": 1 }, "value": 0.55 },
+    "tooltip": [
+      { "field": "state", "title": "State" },
+      { "field": "parent_ed", "title": "Parents' education" },
+      { "field": "score", "title": "Average score", "format": ".0f" }
+    ]
+  },
+  "config": { "view": { "stroke": null } }
+}

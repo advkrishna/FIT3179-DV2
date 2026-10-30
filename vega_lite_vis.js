@@ -30,6 +30,7 @@ drawChart("#schoolloc", "charts/schoolsloc.json", "canvas");
 drawChart("#butterfly", "charts/butterfly.json");
 drawChart("#ssratio", "charts/staff_ratio.json");
 drawChart("#bump", "charts/bumpchart.json");
+drawChart("#naplan", "charts/naplan_dot.json");
 
 const DESIGN_WIDTH = autosize;   
 function fitPage() {
