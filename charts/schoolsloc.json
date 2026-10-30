@@ -1,0 +1,82 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Schools in Australia by how Advantaged its Students are, 2025",
+    "subtitle": "Each dot is a school, categorised by ICSEA (Index of Community Socio-educational Advantage) percentile",
+    "anchor": "start"
+  },
+  "width": 500,
+  "height": 460,
+  "projection": {
+    "type": "albers",
+    "rotate": [-132, 0],
+    "center": [0, -27],
+    "parallels": [-18, -36],
+    "scale": 700
+  },
+  "params": [
+  {
+    "name": "sector_pick",
+    "value": "All",
+    "bind": {
+      "input": "select",
+      "options": ["All", "Government", "Catholic", "Independent"],
+      "name": "School sector: "
+    }
+  },
+  {
+    "name": "geo_pick",
+    "value": "All",
+    "bind": {
+      "input": "select",
+      "options": ["All", "Major Cities", "Inner Regional", "Outer Regional", "Remote", "Very Remote"],
+      "name": "Area type: "
+    }
+  }
+],
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/advkrishna/FIT3179-DV2/refs/heads/main/data/australia_states.topojson",
+        "format": { "type": "topojson", "feature": "states" }
+      },
+      "mark": { "type": "geoshape", "fill": "#eeeae3", "stroke": "#ffffff", "strokeWidth": 1 }
+    },
+    {
+      "data": {
+        "url": "data/school_profile_2025.csv",
+        "format": { "type": "csv", "parse": { "icsea_pct": "number", "lat": "number", "long": "number" } }
+      },
+      "transform": [{"filter": "isValid(datum.icsea_pct) && isValid(datum.lat) && isValid(datum.long) && (sector_pick == 'All' || datum.sector == sector_pick) && (geo_pick == 'All' || datum.geo == geo_pick)"
+        }
+    ],
+      "mark": { "type": "circle", "size": 10, "opacity": 0.65 },
+      "encoding": {
+        "longitude": { "field": "long", "type": "quantitative" },
+        "latitude": { "field": "lat", "type": "quantitative" },
+        "order": { "field": "icsea_pct", "type": "quantitative", "sort": "descending" },
+        "color": {
+          "field": "icsea_pct",
+          "type": "quantitative",
+          "scale": { "domain": [0, 25, 50, 75, 100], "range": ["#e0592a", "#f4a261", "#d9d9d9", "#2fa4e7", "#0b5cad"], "clamp": true },
+          "legend": {
+            "title": "School advantage score",
+            "orient": "bottom-left",
+            "titleFontSize": 10,
+            "labelFontSize": 10,
+            "gradientLength": 150,
+            "gradientThickness": 10
+          }
+        },
+        "tooltip": [
+          { "field": "icsea_pct", "title": "ICSEA percentile" },
+          { "field": "school", "title": "School" },
+          { "field": "state", "title": "State" },
+          { "field": "sector", "title": "Sector" },
+          { "field": "icsea", "title": "Advantage score" }
+        ]
+      }
+    }
+  ],
+  "config": { "view": { "stroke": null } }
+}

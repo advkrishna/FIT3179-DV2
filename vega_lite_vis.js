@@ -26,6 +26,7 @@ drawChart("#socioeconomic", "charts/socioeco_heatmap.json");
 drawChart("#map1", "charts/propsymbol.json");
 drawChart("#map2", "charts/remoteness_zones_map.json");
 drawChart("#remotebar", "charts/remoteness_bargrid.json");
+drawChart("#schoolloc", "charts/schoolsloc.json", "canvas");
 
 const DESIGN_WIDTH = autosize;   
 function fitPage() {

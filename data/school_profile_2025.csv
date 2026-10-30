@@ -2859,7 +2859,7 @@ id,school,state,sector,geo,icsea,icsea_pct,ssr,enrol,indig_pct,lbote_pct,lat,lon
 43406,Our Lady Queen of Peace Catholic Primary School,NSW,Catholic,Major Cities,1132,92,7.2,179,0,65,-33.826261,151.126955
 43407,St James Catholic Primary School,NSW,Catholic,Major Cities,1125,90,8.9,152,0,77,-33.879547,151.18509
 43408,St John Vianney Catholic Primary School,NSW,Catholic,Major Cities,1034,61,6.1,221,1,91,-33.903833,151.0593
-43409,St Catherine Labouré Catholic Primary School,NSW,Catholic,Major Cities,1109,87,10.1,596,1,24,-34.037134,151.083979
+43409,St Catherine Labour Catholic Primary School,NSW,Catholic,Major Cities,1109,87,10.1,596,1,24,-34.037134,151.083979
 43410,St Joan of Arc Catholic Primary School,NSW,Catholic,Major Cities,1083,80,5.8,110,1,76,-33.87904041,151.139506
 43411,Marion Catholic Primary School,NSW,Catholic,Major Cities,1037,63,7.2,186,2,93,-33.841231,150.850842
 43412,Good Shepherd Catholic Primary School,NSW,Catholic,Major Cities,1037,63,9.0,469,1,96,-33.93018,150.862437
@@ -3206,7 +3206,7 @@ id,school,state,sector,geo,icsea,icsea_pct,ssr,enrol,indig_pct,lbote_pct,lat,lon
 43783,Tyndale Christian School,NSW,Independent,Major Cities,1066,74,6.0,816,1,52,-33.78318,150.88558
 43784,Key College,NSW,Independent,Major Cities,909,13,2.0,70,24,21,-33.89177,151.197903
 43785,Sydney Grammar School,NSW,Independent,Major Cities,1274,99,5.1,1925,0,30,-33.874973,151.213277
-43786,OneSchool Global NSW - Cowra ,NSW,Independent,Inner Regional,963,30,3.6,18,0,0,-33.838753,148.662159
+43786,OneSchool Global NSW - Cowra,NSW,Independent,Inner Regional,963,30,3.6,18,0,0,-33.838753,148.662159
 43787,Orange Anglican Grammar School,NSW,Independent,Inner Regional,1077,78,9.7,755,3,12,-33.2586,149.073
 43788,Illawarra Christian School,NSW,Independent,Major Cities,1091,82,6.1,800,2,30,-34.443449,150.830377
 43790,Moree Christian School,NSW,Independent,Outer Regional,1002,48,5.5,126,17,11,-29.482677,149.83689
@@ -3238,7 +3238,7 @@ id,school,state,sector,geo,icsea,icsea_pct,ssr,enrol,indig_pct,lbote_pct,lat,lon
 43819,OneSchool Global NSW - Condobolin,NSW,Independent,Outer Regional,978,37,5.4,43,0,0,-33.0944,147.139
 43820,Macquarie Anglican Grammar School,NSW,Independent,Inner Regional,1040,64,10.9,664,15,7,-32.249898,148.576138
 43821,The Scots College,NSW,Independent,Major Cities,1162,97,5.4,2076,1,37,-33.875115,151.253856
-43822,OneSchool Global NSW - Armidale ,NSW,Independent,Inner Regional,981,38,3.2,35,0,0,-30.50406,151.655949
+43822,OneSchool Global NSW - Armidale,NSW,Independent,Inner Regional,981,38,3.2,35,0,0,-30.50406,151.655949
 43823,Aspect Western Sydney School,NSW,Independent,Major Cities,1039,64,1.7,167,4,37,-33.848273,150.914952
 43824,Norwest Christian College,NSW,Independent,Major Cities,1109,86,7.2,1187,1,50,-33.677741,150.873642
 43826,Vistara Primary School,NSW,Independent,Inner Regional,1121,90,3.2,19,0,0,-28.783642,153.340038
@@ -3310,7 +3310,7 @@ id,school,state,sector,geo,icsea,icsea_pct,ssr,enrol,indig_pct,lbote_pct,lat,lon
 43905,Tambelin Independent School,NSW,Independent,Inner Regional,1091,82,9.8,39,10,15,-34.749518,149.726329
 43907,OneSchool Global NSW - Albury,NSW,Independent,Inner Regional,973,34,3.1,31,0,0,-36.037472,146.923353
 43908,OneSchool Global NSW - Orange,NSW,Independent,Inner Regional,977,36,4.7,109,0,0,-33.27701,149.107076
-43910,OneSchool Global NSW - Mount Victoria ,NSW,Independent,Inner Regional,976,36,5.8,87,0,0,-33.588923,150.252743
+43910,OneSchool Global NSW - Mount Victoria,NSW,Independent,Inner Regional,976,36,5.8,87,0,0,-33.588923,150.252743
 43911,OneSchool Global NSW - Illawarra,NSW,Independent,Inner Regional,973,34,5.9,159,0,0,-34.245449,150.942529
 43913,Meriden School,NSW,Independent,Major Cities,1180,99,5.9,1761,0,80,-33.874317,151.089925
 43914,Danebank - An Anglican School for Girls,NSW,Independent,Major Cities,1146,94,5.2,1043,1,54,-33.961212,151.1018
@@ -9583,7 +9583,7 @@ id,school,state,sector,geo,icsea,icsea_pct,ssr,enrol,indig_pct,lbote_pct,lat,lon
 53041,Blue Gum Community School,NSW,Independent,Major Cities,1105,86,4.2,21,5,45,-33.70231816,151.0905918
 53043,Pacific Gulgangali Jarjums Christian School,NSW,Independent,Major Cities,781,2,1.3,32,100,13,-28.19652078,153.5214512
 53044,St Peter's Heart,NSW,Independent,Major Cities,1071,76,1.7,22,0,32,-34.06684041,150.8179387
-53047,St Lawrence of Brindisi Catholic Primary School,VIC,Catholic,Major Cities,1024,57,8.4,473,1,58,-37.73249944,144.5726374
+53047,St Lawrence of Brindisi Catholic Primary School,VIC,Catholic,Major Cities,1024,57,8.4,473,1,58,-37.73249944,144.5726374
 53049,Ming-De International School Toowoomba,QLD,Independent,Inner Regional,1075,77,1.3,19,0,100,-27.61597628,151.8317216
 53050,The Village School Gold Coast,QLD,Independent,Major Cities,1047,67,8.0,88,3,10,-28.16859019,153.5397549
 53051,Coomera State Special School,QLD,Government,Major Cities,1005,49,1.8,278,6,16,-27.84702508,153.3431157
@@ -9752,5 +9752,5 @@ id,school,state,sector,geo,icsea,icsea_pct,ssr,enrol,indig_pct,lbote_pct,lat,lon
 53473,The Avenue School,VIC,Independent,Major Cities,999,46,2.6,21,0,22,-37.88335037,145.2931213
 53477,Hubbard's School,QLD,Independent,Major Cities,1143,94,4.5,58,0,8,-27.47141457,153.0063934
 53478,"Indie School, Logan",QLD,Independent,Major Cities,955,27,2.9,586,18,8,-27.66394043,153.0431519
-53491,International Maarif Schools of Australia – Melbourne Campus,VIC,Independent,Inner Regional,1080,78,2.5,25,0,100,-37.30101776,144.9532776
+53491,International Maarif Schools of Australia Melbourne Campus,VIC,Independent,Inner Regional,1080,78,2.5,25,0,100,-37.30101776,144.9532776
 53492,Nawarddeken Academy Kunmayali School,NT,Independent,Very Remote,687,1,1.4,34,100,100,-12.76467037,133.8450012
