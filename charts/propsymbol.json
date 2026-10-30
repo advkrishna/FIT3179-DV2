@@ -1,0 +1,114 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Year 12 Completion Percent by State",
+    "anchor": "start"
+  },
+  "width": "container",
+  "height": 500,
+  "projection": {
+  "type": "albers",
+  "rotate": [-132, 0],
+  "center": [0, -24],
+  "parallels": [-18, -36],
+  "scale": 600
+},
+  "params": [
+    {
+      "name": "sym_year",
+      "value": 2022,
+      "bind": { "input": "range", "min": 2009, "max": 2022, "step": 1, "name": "Year: " }
+    }
+  ],
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/advkrishna/FIT3179-DV2/refs/heads/main/data/australia_states.topojson",
+        "format": { "type": "topojson", "feature": "states" }
+      },
+      "mark": { "type": "geoshape", "fill": "#dfdddb", "stroke": "#ffffff", "strokeWidth": 1 }
+    },
+    {
+      "data": { "url": "https://raw.githubusercontent.com/advkrishna/FIT3179-DV2/refs/heads/main/data/yr12_completion.csv" },
+      "transform": [
+        { "filter": "datum.year == sym_year && datum.sex == 'All' && datum.group == 'All'" },
+        {
+          "lookup": "state",
+          "from": {
+            "data": {
+              "values": [
+                { "state": "Western Australia", "code": "WA", "lon": 122.0, "lat": -26.0 },
+                { "state": "Northern Territory", "code": "NT", "lon": 133.5, "lat": -19.5 },
+                { "state": "South Australia", "code": "SA", "lon": 135.0, "lat": -30.5 },
+                { "state": "Queensland", "code": "QLD", "lon": 144.5, "lat": -22.5 },
+                { "state": "New South Wales", "code": "NSW", "lon": 146.0, "lat": -32.0 },
+                { "state": "Victoria", "code": "VIC", "lon": 143.5, "lat": -37.0 },
+                { "state": "Tasmania", "code": "TAS", "lon": 146.6, "lat": -42.0 },
+                { "state": "Australian Capital Territory", "code": "ACT", "lon": 149.1, "lat": -35.5 }
+              ]
+            },
+            "key": "state",
+            "fields": ["code", "lon", "lat"]
+          }
+        },
+        { "filter": "isValid(datum.lon)" }
+      ],
+      "layer": [
+        {
+          "mark": { "type": "circle", "opacity": 0.92, "stroke": "#ffffff", "strokeWidth": 1 },
+          "encoding": {
+            "longitude": { "field": "lon", "type": "quantitative" },
+            "latitude": { "field": "lat", "type": "quantitative" },
+            "order": { "field": "pct", "type": "quantitative", "sort": "descending" },
+            "size": {
+              "field": "pct",
+              "type": "quantitative",
+              "scale": { "zero": true, "domain": [0, 100], "range": [0, 3000] },
+              "legend": { "title": "Proportions", "type": "symbol",
+    "orient": "top-left",
+    "direction": "horizontal",
+    "values": [20, 50, 70, 90],
+    "titleFontSize": 12,
+    "labelFontSize": 10,
+    "padding": 1 }
+            },
+            "color": {
+              "field": "pct",
+              "type": "quantitative",
+              "scale": { "domain": [0, 100], "range": ["#bcdbec", "#051f58"], "clamp": true },
+              "legend": { "title": "Proportions","type": "symbol",
+    "orient": "top-left",
+    "direction": "horizontal",
+    "values": [20, 50, 70, 90],
+    "titleFontSize": 12,
+    "labelFontSize": 10,
+    "padding": 1, "gradientLength": 250 }
+            },
+            "tooltip": [
+              { "field": "state", "title": "State" },
+              { "field": "year", "title": "Year" },
+              { "field": "pct", "title": "Completed Year 12 (%)" }
+            ]
+          }
+        },
+        {
+          "mark": { "type": "text", "fontSize": 10, "fontWeight": "bold", "color": "#ffffff", "dy": -5 },
+          "encoding": {
+            "longitude": { "field": "lon", "type": "quantitative" },
+            "latitude": { "field": "lat", "type": "quantitative" },
+            "text": { "field": "code" }
+          }
+        },
+        {
+          "mark": { "type": "text", "fontSize": 10, "color": "#ffffff", "dy": 7 },
+          "encoding": {
+            "longitude": { "field": "lon", "type": "quantitative" },
+            "latitude": { "field": "lat", "type": "quantitative" },
+            "text": { "field": "pct", "type": "quantitative", "format": ".0f" }
+          }
+        }
+      ]
+    }
+  ],
+  "config": { "view": { "stroke": null } }
+}
