@@ -5,13 +5,13 @@
     "anchor": "start"
   },
   "width": "container",
-  "height": 360,
+  "height": 390,
   "projection": {
     "type": "albers",
     "rotate": [-132, 0],
     "center": [0, -27],
     "parallels": [-18, -36],
-    "scale": 600
+    "scale": 500
   },
   "params": [
     {

@@ -33,7 +33,7 @@
   "spacing": { "row": 25, "column": 15 },
   "resolve": { "axis": { "x": "independent", "y": "independent" } },
   "spec": {
-    "width": 110,
+    "width": 100,
     "height": 80,
     "encoding": {
       "x": {
