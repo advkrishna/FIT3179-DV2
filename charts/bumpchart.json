@@ -1,0 +1,71 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Which states are climbing the Year 12 ladder?",
+    "anchor": "start"
+  },
+  "width": "container",
+  "height": 300,
+  "padding": { "right": 10, "left": 5, "top": 10, "bottom": 0 },
+  "data": { "url": "data/yr12_completion.csv" },
+  "transform": [
+    { "filter": "datum.sex == 'All' && datum.group == 'All' && datum.state != 'Australia'" },
+    { "calculate": "toNumber(datum.pct)", "as": "pct_n" },
+    { "filter": "isValid(datum.pct_n)" },
+    {
+      "window": [{ "op": "rank", "as": "rank" }],
+      "sort": [{ "field": "pct_n", "order": "descending" }],
+      "groupby": ["year"]
+    }
+  ],
+  "encoding": {
+    "x": {
+      "field": "year", "type": "ordinal", "title": null,
+      "axis": { "labelAngle": 0, "labelFontSize": 11, "grid": false }
+    },
+    "y": {
+      "field": "rank", "type": "quantitative", "title": "Rank (1 = highest completion)",
+      "scale": { "domain": [1, 9], "reverse": true },
+      "axis": { "values": [1, 2, 3, 4, 5, 6, 7, 8], "format": "d", "grid": true, "gridColor": "#eeeeee" }
+    },
+    "color": {
+      "field": "state", "type": "nominal", "legend": null,
+      "scale": {
+        "domain": ["New South Wales", "Victoria", "Queensland", "Western Australia", "South Australia", "Tasmania", "Australian Capital Territory", "Northern Territory"],
+        "range": ["#0072B2", "#D55E00", "#009E73", "#CC79A7", "#E69F00", "#56B4E9", "#7a7a7a", "#1f2933"]
+      }
+    }
+  },
+  "layer": [
+    {
+      "mark": { "type": "line", "strokeWidth": 3, "interpolate": "monotone" },
+      "encoding": {
+        "opacity": { "condition": { "param": "hl", "value": 1 }, "value": 0.25 }
+      }
+    },
+    {
+      "params": [
+        { "name": "hl", "select": { "type": "point", "fields": ["state"], "on": "pointerover", "clear": "pointerout" } }
+      ],
+      "mark": { "type": "circle", "size": 20, "opacity": 1 },
+      "encoding": {
+        "opacity": { "condition": { "param": "hl", "value": 1 }, "value": 0.35 },
+        "tooltip": [
+          { "field": "state", "title": "State" },
+          { "field": "year", "title": "Year" },
+          { "field": "rank", "title": "Rank" },
+          { "field": "pct_n", "title": "Completed Year 12 (%)", "format": ".1f" }
+        ]
+      }
+    },
+    {
+      "transform": [{ "filter": "datum.year == 2022" }],
+      "mark": { "type": "text", "align": "left", "dx": 10, "fontSize": 11, "fontWeight": 600 },
+      "encoding": {
+        "text": { "field": "state" },
+        "opacity": { "condition": { "param": "hl", "value": 1 }, "value": 0.5 }
+      }
+    }
+  ],
+  "config": { "view": { "stroke": null } }
+}

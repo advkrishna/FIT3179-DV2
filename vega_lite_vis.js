@@ -29,6 +29,7 @@ drawChart("#remotebar", "charts/remoteness_bargrid.json");
 drawChart("#schoolloc", "charts/schoolsloc.json", "canvas");
 drawChart("#butterfly", "charts/butterfly.json");
 drawChart("#ssratio", "charts/staff_ratio.json");
+drawChart("#bump", "charts/bumpchart.json");
 
 const DESIGN_WIDTH = autosize;   
 function fitPage() {
