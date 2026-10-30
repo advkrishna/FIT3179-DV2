@@ -1,0 +1,105 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Year 12 completion by State and Remoteness type, 2022",
+    "subtitle": "n/a = no data available or no such area.",
+    "anchor": "start"
+  },
+  "data": {
+    "values": [
+      { "state": "Western Australia", "code": "WA", "col": 0, "row": 0 },
+      { "state": "Northern Territory", "code": "NT", "col": 1, "row": 0 },
+      { "state": "South Australia", "code": "SA", "col": 0, "row": 1 },
+      { "state": "Queensland", "code": "QLD", "col": 2, "row": 0 },
+      { "state": "New South Wales", "code": "NSW", "col": 3, "row": 0 },
+      { "state": "Victoria", "code": "VIC", "col": 1, "row": 1 },
+      { "state": "Australian Capital Territory", "code": "ACT", "col": 2, "row": 1 },
+      { "state": "Tasmania", "code": "TAS", "col": 3, "row": 1 }
+    ]
+  },
+  "transform": [
+    { "calculate": "['Major cities','Inner regional','Outer regional','Remote/very remote']", "as": "groups" },
+    { "flatten": ["groups"], "as": ["group"] },
+    { "calculate": "'2022|' + datum.state + '|All|' + datum.group", "as": "key" },
+    {
+      "lookup": "key",
+      "from": { "data": { "url": "https://raw.githubusercontent.com/advkrishna/FIT3179-DV2/refs/heads/main/data/yr12_completion.csv" }, "key": "key", "fields": ["pct"] }
+    }
+  ],
+  "facet": {
+    "row": { "field": "row", "type": "ordinal", "header": { "title": null, "labels": false } },
+    "column": { "field": "col", "type": "ordinal", "header": { "title": null, "labels": false } }
+  },
+  "spacing": { "row": 25, "column": 15 },
+  "resolve": { "axis": { "x": "independent", "y": "independent" } },
+  "spec": {
+    "width": 110,
+    "height": 80,
+    "encoding": {
+      "x": {
+  "field": "group",
+  "type": "ordinal",
+  "sort": ["Major cities", "Inner regional", "Outer regional", "Remote/very remote"],
+  "axis": {
+    "title": "Remoteness Area",
+    "labelAngle": 300,
+    "labelFontSize": 10,
+    "labelExpr": "datum.value == 'Major cities' ? 'City' : datum.value == 'Inner regional' ? 'Inner' : datum.value == 'Outer regional' ? 'Outer' : 'Remote'"
+  }
+}
+    },
+    "layer": [
+      {
+        "transform": [{ "filter": "isValid(datum.pct)" }],
+        "mark": { "type": "bar" , "color": "#316d96" },
+        "encoding": {
+          "y": {
+          "field": "pct",
+          "type": "quantitative",
+          "scale": { "domain": [0, 100] },
+          "axis": {
+            "values": [0, 50, 100],
+            "title": "% completed",
+            "titleFontSize": 9,
+            "labelFontSize": 8,
+            "grid": true,
+            "gridColor": "#eeeeee"
+          }
+},
+          "tooltip": [
+            { "field": "state", "title": "State" },
+            { "field": "group", "title": "Area type" },
+            { "field": "pct", "title": "Completed Year 12 (%)" }
+          ]
+        }
+      },
+      {
+        "transform": [{ "filter": "isValid(datum.pct)" }],
+        "mark": { "type": "text", "dy": -3, "fontSize": 9, "baseline": "bottom" },
+        "encoding": {
+          "x": { "field": "group", "type": "ordinal", "bandPosition": 0.5 },
+          "y": { "field": "pct", "type": "quantitative", "scale": { "domain": [0, 100] } },
+          "text": { "field": "pct", "type": "quantitative", "format": ".0f" }
+        }
+      },
+      {
+        "transform": [{ "filter": "!isValid(datum.pct)" }],
+        "mark": { "type": "text", "fontSize": 9, "color": "#8a8f98", "baseline": "bottom", "dy": -2 },
+        "encoding": {
+          "x": { "field": "group", "type": "ordinal", "bandPosition": 0.5 },
+          "y": { "value": 78 },
+          "text": { "value": "n/a" }
+        }
+      },
+      {
+        "mark": { "type": "text", "align": "left", "baseline": "bottom", "fontWeight": "bold", "fontSize": 12, "dy": -6 },
+        "encoding": {
+          "x": { "value": 0 },
+          "y": { "value": 0 },
+          "text": { "field": "code" }
+        }
+      }
+    ]
+  },
+  "config": { "view": { "stroke": null }, "axis": { "grid": false } }
+}

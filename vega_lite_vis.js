@@ -21,3 +21,4 @@ drawChart("#gender", "charts/gender_dumbbell.json");
 drawChart("#socioeconomic", "charts/socioeco_heatmap.json");
 drawChart("#map1", "charts/choropleth.json");
 drawChart("#map2", "charts/remoteness_zones_map.json");
+drawChart("#remotebar", "charts/remoteness_bargrid.json");

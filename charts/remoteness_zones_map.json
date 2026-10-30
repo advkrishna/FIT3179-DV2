@@ -1,23 +1,23 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": {
-    "text": "Year 12 completion by Remoteness zone",
+    "text": "Year 12 Completion by Remoteness zone",
     "anchor": "start"
   },
   "width": "container",
-  "height": 440,
+  "height": 360,
   "projection": {
     "type": "albers",
     "rotate": [-132, 0],
     "center": [0, -27],
     "parallels": [-18, -36],
-    "scale": 640
+    "scale": 600
   },
   "params": [
     {
       "name": "zone_year",
       "value": 2022,
-      "bind": { "input": "range", "min": 2009, "max": 2022, "step": 1, "name": "Year: " }
+      "bind": { "input": "range", "min": 2009, "max": 2022, "step": 1, "name": "Year: "}
     }
   ],
   "layer": [
@@ -89,7 +89,7 @@
       { "city": "Canberra", "lon": 149.13, "lat": -35.28 }
     ]
   },
-  "mark": { "type": "circle", "size": 45, "fill": "#1f2933", "stroke": "#ffffff", "strokeWidth": 1.5 },
+  "mark": { "type": "circle", "size": 15, "fill": "#f5740b", "stroke": "#ffffff", "strokeWidth": 0.3 },
   "encoding": {
     "longitude": { "field": "lon", "type": "quantitative" },
     "latitude": { "field": "lat", "type": "quantitative" },
